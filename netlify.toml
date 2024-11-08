@@ -1,0 +1,2 @@
+[build]
+  functions = "functions" # 这表示无服务器函数的目录名称
