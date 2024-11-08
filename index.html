@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reCAPTCHA Verification</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <h1>Verify you are human</h1>
+  <form id="recaptcha-form" action="/.netlify/functions/verify-recaptcha" method="POST">
+    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    // Prevent default form submission
+    document.getElementById('recaptcha-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      
+      const token = grecaptcha.getResponse();
+      if (!token) {
+        document.getElementById('result').innerText = "Please complete the reCAPTCHA.";
+        return;
+      }
+
+      const response = await fetch("/.netlify/functions/verify-recaptcha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: token })
+      });
+
+      const result = await response.json();
+      document.getElementById('result').innerText = result.message;
+      
+      grecaptcha.reset(); // Reset the reCAPTCHA after submission
+    });
+  </script>
+</body>
+</html>
