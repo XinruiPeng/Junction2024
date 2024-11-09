@@ -37,7 +37,7 @@ const DAO = () => {
   const [proposals, setProposals] = useState([]);
   const [activities, setActivities] = useState([]); // To store activities
   const [newProposal, setNewProposal] = useState("");
-  const [voted, setVoted] = useState(false);
+  const [votedProposals, setVotedProposals] = useState([]); // Track voted proposal IDs
   const [resultMessage, setResultMessage] = useState("");
   const [userId, setUserId] = useState("");
   const [selectedVote, setSelectedVote] = useState(""); // Track selected vote option
@@ -50,7 +50,16 @@ const DAO = () => {
     } else {
       setResultMessage("User not logged in. Please log in.");
     }
+
+    // Load already voted proposals from localStorage (to persist across page reloads)
+    const voted = JSON.parse(localStorage.getItem("votedProposals")) || [];
+    setVotedProposals(voted);
   }, []);
+
+  useEffect(() => {
+    // Save the voted proposals to localStorage whenever it changes
+    localStorage.setItem("votedProposals", JSON.stringify(votedProposals));
+  }, [votedProposals]);
 
   const createProposal = () => {
     if (!newProposal) return;
@@ -84,8 +93,9 @@ const DAO = () => {
   };
 
   const voteOnProposal = (id) => {
-    if (voted) {
-      setResultMessage("You have already voted on a proposal.");
+    // Check if the user has already voted for this proposal
+    if (votedProposals.includes(id)) {
+      setResultMessage("You have already voted on this proposal.");
       return;
     }
 
@@ -94,13 +104,14 @@ const DAO = () => {
       return;
     }
 
+    // Update proposals and activities
     const updatedProposals = proposals.map((prop) =>
       prop.id === id ? { ...prop, votes: prop.votes + 1 } : prop
     );
 
-    // Update proposals and activities
     setProposals(updatedProposals);
     const voteTimestamp = getTimestamp();
+
     setActivities([
       ...activities,
       {
@@ -111,24 +122,28 @@ const DAO = () => {
         vote: selectedVote,  // Store the selected vote option
       },
     ]);
-    setVoted(true);
+
+    // Add the proposal ID to the list of voted proposals
+    setVotedProposals([...votedProposals, id]);
+
     setResultMessage("Your vote has been cast!");
+    setSelectedVote(""); // Clear the selected vote after submitting
   };
 
   return (
     <div className="dao-container">
-      <h1>Welcome to the Forum</h1>
+      <h1>Welcome to the DAO</h1>
       {userId && <p>Your unique ID: <strong>{userId}</strong></p>}
 
       <div className="proposal-section">
-        <h2>Create a Proposal</h2>
+        <h2>Create Proposal</h2>
         <input
           type="text"
           value={newProposal}
           onChange={(e) => setNewProposal(e.target.value)}
           placeholder="Enter proposal description"
         />
-        <button onClick={createProposal}>Create</button>
+        <button onClick={createProposal}>Create Proposal</button>
       </div>
 
       <div className="vote-section">
@@ -182,6 +197,7 @@ const DAO = () => {
 };
 
 export default DAO;
+
 
 
 
