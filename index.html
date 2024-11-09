@@ -4,16 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>reCAPTCHA Verification</title>
+  <link rel="stylesheet" href="styles.css">
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-  <h1>Verify you are human</h1>
-  <form id="recaptcha-form" action="/.netlify/functions/verify-recaptcha" method="POST">
+  <h1 class="recaptcha-title">Verify you are human</h1>
+  <form id="recaptcha-form" action="/.netlify/functions/verify-recaptcha" method="POST" class="recaptcha-form">
     <div class="g-recaptcha" data-sitekey="6LfwZXkqAAAAADQrIZ_E5QPpmp6qVG8Dhxuc7wWW"></div>
-    <button type="submit">Submit</button>
+    <button type="submit" class="recaptcha-button">Submit</button>
   </form>
 
-  <p id="result"></p>
+  <p id="result" class="recaptcha-result"></p>
 
   <script>
     // Prevent default form submission
