@@ -1,9 +1,9 @@
-const fetch = require('node-fetch'); 
+const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
   const recaptchaResponse = JSON.parse(event.body).token;
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaResponse}`;
 
-  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=6LfwZXkqAAAAADfdmGryaW7XC_6VzoTvyx_UBfKw&response=${recaptchaResponse}`;
   const response = await fetch(verificationURL, { method: 'POST' });
   const data = await response.json();
 
