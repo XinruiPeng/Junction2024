@@ -14,7 +14,7 @@ const RecaptchaForm = () => {
       return;
     }
 
-    const response = await fetch('/.netlify/functions/verify-recaptcha', {
+    const response = await fetch('/functions/verify-recaptcha', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token }),
