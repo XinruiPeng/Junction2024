@@ -266,27 +266,29 @@ body {
 .proposal-created {
   flex: 1;  /* Take up equal space */
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 15px;
   background-color: #f9f9f9;
   overflow-y: auto;  /* Allow vertical scrolling */
   max-height: 100%;  /* Ensure it doesn't overflow */
+  border-radius: 15px;
 }
 
 /* Section for Vote Cast */
 .vote-cast {
   flex: 1;  /* Take up equal space */
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 15px;
   background-color: #f9f9f9;
   overflow-y: auto;  /* Allow vertical scrolling */
   max-height: 100%;  /* Ensure it doesn't overflow */
+  border-radius: 15px;
 }
 
 /* Activity log item */
 .activity-item {
   margin-bottom: 15px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 7px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
