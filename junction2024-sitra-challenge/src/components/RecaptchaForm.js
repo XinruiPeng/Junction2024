@@ -15,7 +15,7 @@ const RecaptchaForm = () => {
     e.preventDefault();
 
     if (!recaptchaToken) {
-      alert('Please complete the reCAPTCHA');
+      alert('Please complete the reCAPTCHA, validate you are humanbeings');
       return;
     }
 
