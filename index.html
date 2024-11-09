@@ -10,13 +10,26 @@
 <body>
   <h1 class="recaptcha-title">Verify you are human</h1>
   <form id="recaptcha-form" action="/.netlify/functions/verify-recaptcha" method="POST" class="recaptcha-form">
-    <div class="g-recaptcha" data-sitekey="6LfwZXkqAAAAADQrIZ_E5QPpmp6qVG8Dhxuc7wWW"></div>
+    <div id="recaptcha-container"></div> <!-- Container for the reCAPTCHA -->
     <button type="submit" class="recaptcha-button">Submit</button>
   </form>
 
   <p id="result" class="recaptcha-result"></p>
 
   <script>
+    // Load the site key from the server-side function
+    async function loadRecaptcha() {
+      const response = await fetch('/.netlify/functions/get-site-key');
+      const data = await response.json();
+
+      const recaptchaContainer = document.getElementById('recaptcha-container');
+      recaptchaContainer.innerHTML = `<div class="g-recaptcha" data-sitekey="${data.siteKey}"></div>`;
+      grecaptcha.render(recaptchaContainer);
+    }
+
+    // Call the function to load reCAPTCHA
+    loadRecaptcha();
+
     // Prevent default form submission
     document.getElementById('recaptcha-form').addEventListener('submit', async function(event) {
       event.preventDefault();
