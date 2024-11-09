@@ -1,9 +1,11 @@
 // src/components/RecaptchaForm.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReCAPTCHA from 'react-google-recaptcha';
 
 const RecaptchaForm = () => {
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,6 @@ const RecaptchaForm = () => {
     });
 
     const result = await response.json();
-    const navigate = useNavigate();
     if (result.success) {
       navigate("/login");
     } else {
