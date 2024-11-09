@@ -1,0 +1,169 @@
+/* src/App.css */
+:root {
+  --white: #fff;
+  --background-color: #f0f8ff;
+  --theme-color: #6495ed;
+  --theme-hover-color: #4169e1;
+  --text-color: #333;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  text-align: center;
+  padding: 50px;
+}
+
+.recaptcha-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.recaptcha-title {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: var(--theme-color);
+}
+
+.recaptcha-form {
+  background-color: var(--white);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.g-recaptcha {
+  margin: 20px 0;
+}
+
+.recaptcha-button {
+  background-color: var(--theme-color);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.recaptcha-button:hover {
+  background-color: var(--theme-hover-color);
+}
+
+.recaptcha-result {
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.activity-tab {
+  margin-top: 30px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}
+
+.activity-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.activity-item p {
+  margin: 5px 0;
+}
+
+.activity-item strong {
+  color: #2e3b4e;
+}
+
+/* src/App.css */
+
+/* General button styles */
+.vote-section button, .vote-option {
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for all vote buttons */
+.vote-section button:hover, .vote-option:hover {
+  background-color: #2b4c7b;
+  color: white;
+}
+
+/* When the button is clicked, make it the same as the submit button */
+.vote-section button:active, .vote-option.selected {
+  background-color: #2b4c7b;
+  color: white;
+}
+
+/* Vote option button colors */
+.at-variance .skip-neutral .of-one-mind{
+  background-color: white;
+  color: black;
+}
+
+/* Submit button style */
+.submit-btn {
+  background-color: #3b6c9b;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #2b4c7b;
+}
+
+/* Container for the input and button */
+.proposal-section {
+  display: flex;
+  flex-direction: column;  /* Stack input and button vertically */
+  align-items: flex-start;  /* Align them to the start */
+  margin-top: 20px;
+}
+
+/* Style for input field */
+.proposal-section input {
+  width: 100%; /* Make the input take up the full width of its container */
+  padding: 10px;
+  margin-bottom: 10px; /* Space between the input and button */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+/* Style for create button */
+.proposal-section button {
+  background-color: #3b6c9b;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  width: 100%; /* Make the button take up the full width of its container */
+}
+
+/* Hover effect for the create button */
+.proposal-section button:hover {
+  background-color: #2b4c7b;
+}
+
+/* Optional: Add a container with some margin to separate it from other sections */
+.proposal-section h2 {
+  margin-bottom: 15px;  /* Add space between the heading and the input field */
+}
