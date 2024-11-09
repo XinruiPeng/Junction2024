@@ -1,48 +1,56 @@
 // src/components/RecaptchaForm.js
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 const RecaptchaForm = () => {
-  const [message, setMessage] = useState('');
-  const navigate = useNavigate(); 
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+  const navigate = useNavigate();
+
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaToken(value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = window.grecaptcha.getResponse();
 
-    if (!token) {
-      setMessage("Please complete the reCAPTCHA.");
+    if (!recaptchaToken) {
+      alert('Please complete the reCAPTCHA');
       return;
     }
 
-    const response = await fetch('/functions/verify-recaptcha', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token }),
-    });
+    try {
+      const response = await fetch('/.netlify/functions/verify-recaptcha', {
+        method: 'POST',
+        body: JSON.stringify({ token: recaptchaToken }),
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    const result = await response.json();
-    if (result.success) {
-      navigate("/login");
-    } else {
-      setMessage(result.message || "Verification failed. Please try again.");
+      const data = await response.json();
+
+      if (data.success) {
+        console.log('Verification successful');
+        navigate('/login');
+      } else {
+        alert('reCAPTCHA verification failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during reCAPTCHA verification:', error);
+      alert('An error occurred. Please try again later.');
     }
-
-    window.grecaptcha.reset(); // Reset reCAPTCHA after submission
   };
 
   return (
     <div>
-      <h1 className="recaptcha-title">Verify you are human</h1>
-      <form onSubmit={handleSubmit} className="recaptcha-form">
+      <form onSubmit={handleSubmit}>
+        <h3>Please complete the reCAPTCHA</h3>
         <ReCAPTCHA
           sitekey="6LfwZXkqAAAAADQrIZ_E5QPpmp6qVG8Dhxuc7wWW"
-          onChange={(token) => window.grecaptchaResponse = token}
+          onChange={handleRecaptchaChange}
         />
-        <button type="submit" className="recaptcha-button">Submit</button>
+        <br />
+        <button type="submit">Submit</button>
       </form>
-      <p id="result" className="recaptcha-result">{message}</p>
     </div>
   );
 };

@@ -23,6 +23,7 @@ exports.handler = async (event) => {
       };
     }
   } catch (error) {
+    console.error("Error during reCAPTCHA verification:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ success: false, message: 'Server error. Please try again later.' }),
