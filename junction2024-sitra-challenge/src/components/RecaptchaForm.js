@@ -21,8 +21,9 @@ const RecaptchaForm = () => {
     });
 
     const result = await response.json();
+    const navigate = useNavigate();
     if (result.success) {
-      window.location.href = "/login";
+      navigate("/login");
     } else {
       setMessage(result.message || "Verification failed. Please try again.");
     }
