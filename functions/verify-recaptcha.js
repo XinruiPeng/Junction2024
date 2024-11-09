@@ -4,7 +4,7 @@ exports.handler = async (event) => {
   const secretKey = 'YOUR_SECRET_KEY';
   const recaptchaResponse = JSON.parse(event.body).token;
 
-  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaResponse}`;
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${6LfwZXkqAAAAADfdmGryaW7XC_6VzoTvyx_UBfKw}&response=${recaptchaResponse}`;
   const response = await fetch(verificationURL, { method: 'POST' });
   const data = await response.json();
 
