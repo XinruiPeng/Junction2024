@@ -5,6 +5,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 
 const RecaptchaForm = () => {
   const [recaptchaToken, setRecaptchaToken] = useState(null);
+  const [resultMessage, setResultMessage] = useState("");
   const navigate = useNavigate();
 
   const handleRecaptchaChange = (value) => {
@@ -15,7 +16,7 @@ const RecaptchaForm = () => {
     e.preventDefault();
 
     if (!recaptchaToken) {
-      alert('Please complete the reCAPTCHA, validate you are humanbeings');
+      setResultMessage('Please complete to verify you are human');
       return;
     }
 
@@ -29,28 +30,30 @@ const RecaptchaForm = () => {
       const data = await response.json();
 
       if (data.success) {
-        console.log('Verification successful');
-        navigate('/login');
+        setResultMessage("Verification successful! Redirecting...");
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
       } else {
-        alert('reCAPTCHA verification failed. Please try again.');
+        setResultMessage('reCAPTCHA verification failed. Please try again.');
       }
     } catch (error) {
       console.error('Error during reCAPTCHA verification:', error);
-      alert('An error occurred. Please try again later.');
+      setResultMessage('An error occurred. Please try again later.');
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h3>Please complete the reCAPTCHA</h3>
+    <div className="recaptcha-form-container">
+      <h1 className="recaptcha-title">Verify you are human</h1>
+      <form id="recaptcha-form" onSubmit={handleSubmit} className="recaptcha-form">
         <ReCAPTCHA
           sitekey="6LfwZXkqAAAAADQrIZ_E5QPpmp6qVG8Dhxuc7wWW"
           onChange={handleRecaptchaChange}
         />
-        <br />
-        <button type="submit">Submit</button>
+        <button type="submit" className="recaptcha-button">Submit</button>
       </form>
+      <p id="result" className="recaptcha-result">{resultMessage}</p>
     </div>
   );
 };
