@@ -81,16 +81,13 @@ body {
   color: #2e3b4e;
 }
 
-/* src/App.css */
-
 /* General button styles */
 .vote-section button, .vote-option {
   border: none;
-  padding: 10px 20px;
-  margin: 5px;
+  padding: 10px 25px;
+  margin: 2px;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
@@ -119,6 +116,8 @@ body {
   padding: 12px 25px;
   border-radius: 5px;
   cursor: pointer;
+  display: block;
+  margin: 20px auto; /* Center the button */
   transition: background-color 0.3s ease;
 }
 
@@ -166,4 +165,150 @@ body {
 /* Optional: Add a container with some margin to separate it from other sections */
 .proposal-section h2 {
   margin-bottom: 15px;  /* Add space between the heading and the input field */
+}
+
+/* Proposal container (for horizontal scroll) */
+.proposal-container {
+  display: flex;
+  overflow-x: auto; /* Allow horizontal scrolling */
+  gap: 20px; /* Space between the cards */
+  padding-bottom: 10px; /* Padding for scrolling space */
+  margin-top: 20px; /* Space after "Vote on Proposals" */
+}
+
+/* Style for each proposal card */
+.proposal-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px; /* Fixed width for the card */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  min-height: 250px;
+  transition: box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover effect for the proposal card */
+.proposal-card:hover {
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Title for each proposal */
+.proposal-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Styling for the details inside the card */
+.proposal-card p {
+  margin: 8px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* New styles for vote options */
+.vote-options {
+  display: flex;
+  justify-content: space-between;  /* Align buttons horizontally with equal space between */
+  gap: 5px;  /* Space between the buttons */
+  width: 100%;  /* Ensure they stretch across the full width */
+  margin-bottom: 10px; /* Space below the buttons */
+  margin-top: 10px;
+}
+
+/* Vote option button styling */
+.vote-option {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.5rem;  /* Adjust font size for better readability */
+  transition: background-color 0.3s ease, border 0.3s ease;
+  text-align: center;
+  width: 30%;  /* Ensure the buttons do not take up too much space */
+}
+
+/* Hover effect for vote option buttons */
+.vote-option:hover {
+  background-color: #e1e1e1;
+  border: 1px solid #bbb;
+}
+
+/* Selected vote option */
+.vote-option.selected {
+  background-color: #3b6c9b;
+  color: white;
+}
+
+.vote-section h2 {
+  text-align: left;  /* Align the heading to the left */
+  width: 100%;  /* Ensure the h2 takes up the full width of its container */
+}
+
+/* Activity Log container */
+.activity-log-container {
+  display: flex;
+  gap: 20px;  /* Space between the two sections */
+  height: 400px;  /* Set a fixed height for the log */
+  margin-top: 20px;
+  width: 100%;
+  align-items: flex-start;  /* Align sections to the top */
+}
+
+/* Section for Proposal Created */
+.proposal-created {
+  flex: 1;  /* Take up equal space */
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+  overflow-y: auto;  /* Allow vertical scrolling */
+  max-height: 100%;  /* Ensure it doesn't overflow */
+}
+
+/* Section for Vote Cast */
+.vote-cast {
+  flex: 1;  /* Take up equal space */
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+  overflow-y: auto;  /* Allow vertical scrolling */
+  max-height: 100%;  /* Ensure it doesn't overflow */
+}
+
+/* Activity log item */
+.activity-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add smooth transition for background change */
+}
+
+/* Highlighted selected item */
+.activity-item.selected {
+  background-color: #d1e7ff; /* Light blue background when selected */
+  border-left: 5px solid #3b6c9b; /* Add a left border to indicate selection */
+}
+
+/* Activity item hover effect */
+.activity-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* Title for the activity log */
+.activity-log-container h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-align: left;  /* Align heading to the left */
+  width: 100%;  /* Ensure heading takes full width */
+  margin-top: 0; /* Optional: Remove top margin if you don't want extra spacing */
 }
