@@ -1,28 +1,46 @@
 // src/components/RecaptchaForm.js
 import React, { useState } from "react";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const RecaptchaForm = () => {
-  const [resultMessage, setResultMessage] = useState("");
+  const [message, setMessage] = useState('');
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = window.grecaptcha.getResponse();
 
-    // Skip the reCAPTCHA validation for now
-    setResultMessage("Verification successful! Redirecting...");
+    if (!token) {
+      setMessage("Please complete the reCAPTCHA.");
+      return;
+    }
 
-    // Simulate redirection
-    setTimeout(() => {
-      window.location.href = "/login"; // Redirect to the login page
-    }, 1000);
+    const response = await fetch('/.netlify/functions/verify-recaptcha', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      window.location.href = "/login";
+    } else {
+      setMessage(result.message || "Verification failed. Please try again.");
+    }
+
+    window.grecaptcha.reset(); // Reset reCAPTCHA after submission
   };
 
   return (
-    <div className="recaptcha-form-container">
+    <div>
       <h1 className="recaptcha-title">Verify you are human</h1>
-      <form id="recaptcha-form" onSubmit={handleFormSubmit} className="recaptcha-form">
+      <form onSubmit={handleSubmit} className="recaptcha-form">
+        <ReCAPTCHA
+          sitekey="6LfwZXkqAAAAADQrIZ_E5QPpmp6qVG8Dhxuc7wWW"
+          onChange={(token) => window.grecaptchaResponse = token}
+        />
         <button type="submit" className="recaptcha-button">Submit</button>
       </form>
-      <p id="result" className="recaptcha-result">{resultMessage}</p>
+      <p id="result" className="recaptcha-result">{message}</p>
     </div>
   );
 };
