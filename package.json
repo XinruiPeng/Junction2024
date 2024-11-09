@@ -1,0 +1,14 @@
+{
+  "name": "junction2024",
+  "version": "1.0.0",
+  "description": "Netlify function for reCAPTCHA verification",
+  "main": "index.js",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "scripts": {
+    "start": "node functions/verify-recaptcha.js"
+  },
+  "author": "Xinrui Peng",
+  "license": "MIT"
+}
