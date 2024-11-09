@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = require('node-fetch'); 
 
 exports.handler = async (event) => {
   const recaptchaResponse = JSON.parse(event.body).token;
@@ -15,7 +15,7 @@ exports.handler = async (event) => {
   } else {
     return {
       statusCode: 400,
-      body: JSON.stringify({ success: false, message: 'Verification failed' }),
+      body: JSON.stringify({ success: false, message: 'Verification failed. Please try again.' }),
     };
   }
 };
