@@ -1,6 +1,6 @@
-// src/components/DAO.js
 import React, { useState, useEffect } from "react";
 import ActivityLog from "./ActivityLog";
+import PieChart from "./PieChart"; // Import PieChart component
 
 // Helper function to generate a timestamp
 const getTimestamp = () => new Date().toLocaleString();
@@ -40,26 +40,32 @@ const DAO = () => {
   const [votedProposals, setVotedProposals] = useState([]); // Track voted proposal IDs
   const [resultMessage, setResultMessage] = useState("");
   const [userId, setUserId] = useState("");
-  const [selectedVote, setSelectedVote] = useState(""); // Track selected vote option
+  const [selectedVotes, setSelectedVotes] = useState({}); // Track selected vote option per proposal
 
   useEffect(() => {
-    // On component mount, retrieve the user ID from localStorage
+    // On component mount, retrieve the user ID and proposals from localStorage
     const id = localStorage.getItem("userId");
+    const savedProposals = JSON.parse(localStorage.getItem("proposals")) || [];
+    const voted = JSON.parse(localStorage.getItem("votedProposals")) || [];
+
     if (id) {
       setUserId(id);
     } else {
-      setResultMessage("User not logged in. Please log in.");
+      // Generate a random user ID if not present in localStorage
+      const newUserId = generateRandomAddress();
+      setUserId(newUserId);
+      localStorage.setItem("userId", newUserId); // Save the new user ID to localStorage
     }
 
-    // Load already voted proposals from localStorage (to persist across page reloads)
-    const voted = JSON.parse(localStorage.getItem("votedProposals")) || [];
-    setVotedProposals(voted);
+    setProposals(savedProposals); // Load saved proposals
+    setVotedProposals(voted); // Load voted proposals
   }, []);
 
   useEffect(() => {
-    // Save the voted proposals to localStorage whenever it changes
+    // Save proposals and votedProposals to localStorage whenever they change
+    localStorage.setItem("proposals", JSON.stringify(proposals));
     localStorage.setItem("votedProposals", JSON.stringify(votedProposals));
-  }, [votedProposals]);
+  }, [proposals, votedProposals]);
 
   const createProposal = () => {
     if (!newProposal) return;
@@ -72,7 +78,7 @@ const DAO = () => {
     const newProp = {
       id: proposalId,
       description: newProposal,
-      votes: 0,
+      votes: { "At variance": 0, "Skip/Neutral": 0, "Of one mind": 0 },
       timestamp: timestamp,
       userId: user,
     };
@@ -99,14 +105,16 @@ const DAO = () => {
       return;
     }
 
-    if (!selectedVote) {
+    if (!selectedVotes[id]) {
       setResultMessage("Please select a voting option.");
       return;
     }
 
-    // Update proposals and activities
+    // Update proposals with new votes
     const updatedProposals = proposals.map((prop) =>
-      prop.id === id ? { ...prop, votes: prop.votes + 1 } : prop
+      prop.id === id
+        ? { ...prop, votes: { ...prop.votes, [selectedVotes[id]]: prop.votes[selectedVotes[id]] + 1 } }
+        : prop
     );
 
     setProposals(updatedProposals);
@@ -119,7 +127,7 @@ const DAO = () => {
         proposalId: id,
         timestamp: voteTimestamp,
         userId: userId || generateRandomAddress(),  // Store user ID or generate a new one
-        vote: selectedVote,  // Store the selected vote option
+        vote: selectedVotes[id],  // Store the selected vote option for this proposal
       },
     ]);
 
@@ -127,12 +135,19 @@ const DAO = () => {
     setVotedProposals([...votedProposals, id]);
 
     setResultMessage("Your vote has been cast!");
-    setSelectedVote(""); // Clear the selected vote after submitting
+  };
+
+  const handleVoteSelection = (proposalId, voteOption) => {
+    // Update the selected vote for the given proposal
+    setSelectedVotes((prevSelectedVotes) => ({
+      ...prevSelectedVotes,
+      [proposalId]: voteOption,
+    }));
   };
 
   return (
     <div className="dao-container">
-      <h1>Welcome to the DAO</h1>
+      <h1>Welcome to the Forum</h1>
       {userId && <p>Your unique ID: <strong>{userId}</strong></p>}
 
       <div className="proposal-section">
@@ -143,61 +158,64 @@ const DAO = () => {
           onChange={(e) => setNewProposal(e.target.value)}
           placeholder="Enter proposal description"
         />
-        <button onClick={createProposal}>Create Proposal</button>
+        <button onClick={createProposal}>Create</button>
       </div>
 
       <div className="vote-section">
         <h2>Vote on Proposals</h2>
-        {proposals.length === 0 ? (
-          <p>No proposals yet</p>
-        ) : (
-          proposals.map((proposal) => (
-            <div key={proposal.id} className="proposal">
-              <p>{proposal.description}</p>
-              <p>Votes: {proposal.votes}</p>
-              <p>Created at: {proposal.timestamp}</p>
-              <p>Proposal ID: {proposal.id}</p> {/* Display Proposal ID */}
-              <p>Made by: {proposal.userId}</p> {/* Show user ID */}
-              
-              <div className="vote-options">
-                <button 
-                  className={`vote-option at-variance ${selectedVote === "At variance" ? "selected" : ""}`}
-                  onClick={() => setSelectedVote("At variance")}
-                >
-                  At variance
-                </button>
-                <button 
-                  className={`vote-option skip-neutral ${selectedVote === "Skip/Neutral" ? "selected" : ""}`}
-                  onClick={() => setSelectedVote("Skip/Neutral")}
-                >
-                  Skip/Neutral
-                </button>
-                <button 
-                  className={`vote-option of-one-mind ${selectedVote === "Of one mind" ? "selected" : ""}`}
-                  onClick={() => setSelectedVote("Of one mind")}
-                >
-                  Of one mind
-                </button>
-              </div>
+        <div className="proposal-container">
+          {proposals.length === 0 ? (
+            <p>No proposals yet</p>
+          ) : (
+            proposals.map((proposal) => (
+              <div key={proposal.id} className="proposal-card">
+                <h3>{proposal.description}</h3>
+                <p>Votes: {proposal.votes["At variance"] + proposal.votes["Skip/Neutral"] + proposal.votes["Of one mind"]}</p>
+                <p>Created at: {proposal.timestamp}</p>
+                <p>Proposal ID: {proposal.id}</p>
+                <p>Created by: {proposal.userId}</p>
 
-              <button onClick={() => voteOnProposal(proposal.id)} className="submit-btn">
-                Submit Vote
-              </button>
-            </div>
-          ))
-        )}
+                <div className="vote-options">
+                  <button 
+                    className={`vote-option at-variance ${selectedVotes[proposal.id] === "At variance" ? "selected" : ""}`}
+                    onClick={() => handleVoteSelection(proposal.id, "At variance")}
+                    disabled={votedProposals.includes(proposal.id)} // Disable vote if already voted
+                  >
+                    At variance
+                  </button>
+                  <button 
+                    className={`vote-option skip-neutral ${selectedVotes[proposal.id] === "Skip/Neutral" ? "selected" : ""}`}
+                    onClick={() => handleVoteSelection(proposal.id, "Skip/Neutral")}
+                    disabled={votedProposals.includes(proposal.id)} // Disable vote if already voted
+                  >
+                    Skip/Neutral
+                  </button>
+                  <button 
+                    className={`vote-option of-one-mind ${selectedVotes[proposal.id] === "Of one mind" ? "selected" : ""}`}
+                    onClick={() => handleVoteSelection(proposal.id, "Of one mind")}
+                    disabled={votedProposals.includes(proposal.id)} // Disable vote if already voted
+                  >
+                    Of one mind
+                  </button>
+                </div>
+
+                <button onClick={() => voteOnProposal(proposal.id)} className="submit-btn" disabled={votedProposals.includes(proposal.id)}>
+                  Submit Vote
+                </button>
+
+                {votedProposals.includes(proposal.id) && <PieChart votes={proposal.votes} />} {/* Display PieChart after submission */}
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
       {resultMessage && <p>{resultMessage}</p>}
 
-      {/* Embed ActivityLog component */}
+      <h2>Activity History</h2>
       <ActivityLog activities={activities} />
     </div>
   );
 };
 
 export default DAO;
-
-
-
-
