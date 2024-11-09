@@ -4,7 +4,7 @@
     --theme-color: #6495ed;
     --theme-hover-color: #4169e1;
     --text-color: #333;
- /* --shadow-color: rgba(0, 0, 0, 0.1); */
+    --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -39,7 +39,7 @@ body {
     background-color: var(--white);
     padding: 30px;
     border-radius: 8px;
- /* box-shadow: 0 4px 12px var(--shadow-color);  */
+    box-shadow: 0 4px 12px var(--shadow-color);
     display: inline-block;
 }
 
