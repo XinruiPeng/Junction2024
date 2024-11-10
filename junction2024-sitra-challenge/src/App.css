@@ -182,10 +182,9 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: 300px; /* Fixed width for the card */
+  width: 400px; /* Fixed width for the card */
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   text-align: left;
   min-height: 250px;
   transition: box-shadow 0.3s ease;
@@ -206,7 +205,7 @@ body {
 
 /* Styling for the details inside the card */
 .proposal-card p {
-  margin: 8px 0;
+  margin: 3.5px 0;
   font-size: 1rem;
   color: #555;
 }
@@ -233,6 +232,7 @@ body {
   transition: background-color 0.3s ease, border 0.3s ease;
   text-align: center;
   width: 30%;  /* Ensure the buttons do not take up too much space */
+  font-size: 12px;
 }
 
 /* Hover effect for vote option buttons */
@@ -245,6 +245,7 @@ body {
 .vote-option.selected {
   background-color: #3b6c9b;
   color: white;
+  font-size: 12px;
 }
 
 .vote-section h2 {
@@ -313,4 +314,8 @@ body {
   text-align: left;  /* Align heading to the left */
   width: 100%;  /* Ensure heading takes full width */
   margin-top: 0; /* Optional: Remove top margin if you don't want extra spacing */
+}
+
+canvas {
+  margin-top: 25px;
 }
