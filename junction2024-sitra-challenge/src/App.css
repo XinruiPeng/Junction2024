@@ -1,7 +1,7 @@
 /* src/App.css */
 :root {
   --white: #fff;
-  --background-color: #f0f8ff;
+  --background-color: #fff;
   --theme-color: #6495ed;
   --theme-hover-color: #4169e1;
   --text-color: #333;
@@ -232,7 +232,6 @@ body {
   transition: background-color 0.3s ease, border 0.3s ease;
   text-align: center;
   width: 30%;  /* Ensure the buttons do not take up too much space */
-  font-size: 12px;
 }
 
 /* Hover effect for vote option buttons */
@@ -245,7 +244,6 @@ body {
 .vote-option.selected {
   background-color: #3b6c9b;
   color: white;
-  font-size: 12px;
 }
 
 .vote-section h2 {
@@ -318,4 +316,16 @@ body {
 
 canvas {
   margin-top: 25px;
+}
+
+/* Ensure the .main-content takes the full width and height */
+.main-content {
+  width: 100%; /* Full width */
+  display: flex; /* Use Flexbox to fill the height */
+  flex-direction: column; /* Arrange child elements vertically */
+  overflow-y: auto; /* Enable vertical scrolling only when content overflows */
+}
+
+.dao-container {
+  padding-top: 60px;
 }

@@ -1,6 +1,6 @@
-// src/components/LoginForm.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./LoginForm.css"; // Import CSS for styling
 
 // Helper function to generate a "Metamask-like" address
 const generateRandomAddress = () => {
@@ -23,7 +23,6 @@ const LoginForm = () => {
   const handleLoginSubmit = (event) => {
     event.preventDefault();
 
-    // Placeholder for login verification logic
     if (username && password) {
       // Generate a unique user ID (simulating a wallet address)
       const generatedId = generateRandomAddress();
@@ -45,41 +44,46 @@ const LoginForm = () => {
 
   return (
     <div className="login-form-container">
-      <h1>Welcome to the Demo Login Page</h1>
-      <form id="login-form" onSubmit={handleLoginSubmit} className="login-form">
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+      <div className="form-container">
+        <h1>Sign in</h1>
+        <p>to continue to your account</p>
+        <form id="login-form" onSubmit={handleLoginSubmit} className="login-form">
+          <input
+            type="text"
+            placeholder="Email address or Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" className="login-button">Continue</button>
+        </form>
 
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        {userId && (
+          <div className="user-id-container">
+            <p>Your unique ID: <strong>{userId}</strong></p>
+          </div>
+        )}
 
-        <button type="submit" className="login-button">Login</button>
-      </form>
+        <p id="login-result">{loginMessage}</p>
 
-      {userId && (
-        <div className="user-id-container">
-          <p>Your unique ID: <strong>{userId}</strong></p>
-        </div>
-      )}
-
-      <p id="login-result">{loginMessage}</p>
+      </div>
+      
+      {/* Background Elements */}
+      <div className="background-decorations">
+        <div className="green-star"></div>
+        <div className="pink-cloud"></div>
+      </div>
     </div>
   );
 };
 
 export default LoginForm;
+
 
