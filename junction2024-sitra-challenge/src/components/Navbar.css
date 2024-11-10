@@ -1,0 +1,61 @@
+  /* Navbar container */
+  .navbar {
+    position: fixed; /* Fix the navbar to the top of the page */
+    top: 0; /* Ensure it's at the top */
+    left: 0; /* Align to the left */
+    width: 100%; /* Full width */
+    background-color: #333;
+    color: white;
+    display: flex;
+    justify-content: space-between; /* Space between logo and links */
+    align-items: center;
+    padding: 20px 40px; /* Adjust padding for height */
+    z-index: 1000; /* Ensure navbar stays on top of other content */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+    height: 30px; /* Set the desired height of the navbar */
+  }
+
+  /* Add a negative margin to the "My Activities" link */
+  .navbar-links .navbar-link:nth-child(2) {
+    margin-right: 80px; /* Adjust the value to move it left */
+  }
+  
+  /* Logo container */
+  .navbar-logo h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #ffffff;
+  }
+  
+  /* Links container */
+  .navbar-links {
+    display: flex;
+    gap: 20px;
+    align-items: center; /* Vertically center the links */
+    justify-content: flex-start; /* Align the links to the left */
+    margin-left: 20px; /* Add a little margin to the left of the links */
+  }
+  
+  /* Link styling */
+  .navbar-link {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  
+  /* Hover effect for links */
+  .navbar-link:hover {
+    color: #6495ed;
+  }
+  
+  /* Adding some padding to prevent content from being hidden behind the navbar */
+  body {
+    padding-top: 90px; /* Adjust for navbar height */
+  }
+
+  .navbar-logo a {
+    text-decoration: none; /* Remove underline */
+  }
+  

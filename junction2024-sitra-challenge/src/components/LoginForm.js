@@ -1,6 +1,6 @@
-// src/components/LoginForm.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google"; // Import the new GoogleLogin component
 
 // Helper function to generate a "Metamask-like" address
 const generateRandomAddress = () => {
@@ -15,17 +15,14 @@ const generateRandomAddress = () => {
 
 const LoginForm = () => {
   const [loginMessage, setLoginMessage] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");  // Store the generated user ID
   const navigate = useNavigate();
 
-  const handleLoginSubmit = (event) => {
-    event.preventDefault();
-
-    // Placeholder for login verification logic
-    if (username && password) {
-      // Generate a unique user ID (simulating a wallet address)
+  // Handle Google login success
+  const handleGoogleLoginSuccess = (response) => {
+    if (response && response.credential) {
+      const user = response; // Get user data from the Google response
+      // Use Gmail email or other profile data for user ID generation
       const generatedId = generateRandomAddress();
       setUserId(generatedId);  // Set user ID state
 
@@ -38,48 +35,36 @@ const LoginForm = () => {
       setTimeout(() => {
         navigate("/forum");  // Navigate to the DAO page
       }, 1000);  // Delay the redirection for 1 second (to show the success message)
-    } else {
-      setLoginMessage("Please fill in both fields.");
     }
+  };
+
+  // Handle Google login failure
+  const handleGoogleLoginFailure = (error) => {
+    console.error("Google login error: ", error);
+    setLoginMessage("Google login failed, please try again.");
   };
 
   return (
     <div className="login-form-container">
       <h1>Welcome to the Demo Login Page</h1>
-      <form id="login-form" onSubmit={handleLoginSubmit} className="login-form">
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
 
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+      {/* Google Login Button */}
+      <GoogleLogin
+        onSuccess={handleGoogleLoginSuccess}  // On success callback
+        onError={handleGoogleLoginFailure}  // On failure callback
+      />
 
-        <button type="submit" className="login-button">Login</button>
-      </form>
+      <p id="login-result">{loginMessage}</p>
 
       {userId && (
         <div className="user-id-container">
           <p>Your unique ID: <strong>{userId}</strong></p>
         </div>
       )}
-
-      <p id="login-result">{loginMessage}</p>
     </div>
   );
 };
 
 export default LoginForm;
+
 
