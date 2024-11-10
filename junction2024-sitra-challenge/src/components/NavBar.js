@@ -7,7 +7,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-logo">
         <Link to="/forum">
-          <h2>SafeVote</h2> {/* The name or logo of your application */}
+          <h2>EchoSphere</h2> {/* The name or logo of your application */}
         </Link>
       </div>
 
