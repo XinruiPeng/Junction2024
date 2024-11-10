@@ -10,7 +10,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/login" element={<LoginForm />} />  {/* Login Route */}
-        <Route path="/dao" element={<DAO />} />  {/* DAO Route */}
+        <Route path="/forum" element={<DAO />} />  {/* DAO Route */}
         <Route path="/" element={<RecaptchaForm />} />  {/* Default Route */}
       </Routes>
     </Router>

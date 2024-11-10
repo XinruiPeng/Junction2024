@@ -36,7 +36,7 @@ const LoginForm = () => {
 
       // Redirect to DAO page after successful login
       setTimeout(() => {
-        navigate("/dao");  // Navigate to the DAO page
+        navigate("/forum");  // Navigate to the DAO page
       }, 1000);  // Delay the redirection for 1 second (to show the success message)
     } else {
       setLoginMessage("Please fill in both fields.");
